@@ -4,16 +4,22 @@ import Quiz from "./components/Quiz";
 import questionsByTopic from "./data/questionsByTopic";
 
 function App() {
+  // State to track if quiz has started
   const [started, setStarted] = useState(false);
+  // State to store user's score after quiz ends
   const [score, setScore] = useState(null);
+  // State to store the selected topic
   const [topic, setTopic] = useState(null);
+  // State to store user's answers for summary
   const [userAnswers, setUserAnswers] = useState([]);
 
+  // Called when quiz finishes, receives score and answers
   const handleFinish = (score, answers) => {
     setScore(score);
     setUserAnswers(answers);
   };
 
+  // Called when user clicks "Back" or "Try Again"
   const handleBack = () => {
     setStarted(false);
     setScore(null);
@@ -23,16 +29,19 @@ function App() {
 
   return (
     <div className="App">
+      {/* Show Home if quiz not started */}
       {!started ? (
         <Home
           onStart={(selectedTopic) => {
-            setTopic(selectedTopic);
-            setStarted(true);
+            setTopic(selectedTopic); // Save selected topic
+            setStarted(true); // Start quiz
           }}
         />
       ) : score === null ? (
+        // Show Quiz if started and not finished
         <Quiz topic={topic} onFinish={handleFinish} onBack={handleBack} />
       ) : (
+        // Show summary after quiz is finished
         <div className="flex flex-col items-center justify-center min-h-screen">
           <span className="text-2xl mb-4">Quiz Finished!</span>
           <span className="text-xl mb-6">Your score: {score}</span>
