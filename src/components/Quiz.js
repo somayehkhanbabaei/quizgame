@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import questionsByTopic from "../data/questionsByTopic";
 
-export default function Quiz({ topic, onFinish }) {
+export default function Quiz({ topic, onFinish, onBack }) {
   const questions = questionsByTopic[topic] || [];
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState(null);
@@ -57,6 +57,15 @@ export default function Quiz({ topic, onFinish }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white">
       <div className="bg-blue-100 p-8 rounded-lg shadow-md w-full max-w-md">
+        {/* Back button only on the first question */}
+        {current === 0 && (
+          <button
+            className="mb-4 px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition"
+            onClick={onBack}
+          >
+            &larr; Back
+          </button>
+        )}
         <h2 className="text-2xl font-semibold mb-6 text-blue-800">
           {questions[current].question}
         </h2>
